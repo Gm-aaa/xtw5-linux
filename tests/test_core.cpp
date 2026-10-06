@@ -82,9 +82,9 @@ class CoreTest : public QObject {
         const QList<QByteArray> captures = {
             QByteArray::fromHex("02100001000e58545735462d312e312e352e52310000"),
             QByteArray::fromHex("021100010011585457352d302e312e30002e52310000000000"),
-            QByteArray::fromHex("02120001000f3130342d3030342d3533352d3130380000"),
+            QByteArray::fromHex("02120001000f3030302d3030302d3030302d3030300000"),
             QByteArray::fromHex("0213000100055854572d350000")};
-        const QStringList expected = {"XTW5F-1.1.5.R1", "XTW5-0.1.0", "104-004-535-108", "XTW-5"};
+        const QStringList expected = {"XTW5F-1.1.5.R1", "XTW5-0.1.0", "000-000-000-000", "XTW-5"};
         Programmer p;
         auto fixture = std::make_unique<Fragmented>();
         fixture->reply.clear();

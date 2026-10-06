@@ -327,10 +327,10 @@ QProgressBar{max-height:18px;text-align:center;} QProgressBar::chunk{background:
     connection = new QLabel("未连接");
     connection->setObjectName("connection");
     statusBar()->addWidget(connection, 1);
-    validation = new QLabel("芯片操作待实机验证");
+    validation = new QLabel("开发预览 · 验收范围见说明");
     statusBar()->addPermanentWidget(validation);
     connect(mode, &QComboBox::currentIndexChanged, this, [this](int value) {
-        validation->setText(value ? "模拟模式 · 不访问 USB" : "芯片操作待实机验证");
+        validation->setText(value ? "模拟模式 · 不访问 USB" : "开发预览 · 验收范围见说明");
         if (!database.chips.isEmpty()) {
             refreshManufacturers();
             rebuildChips();
