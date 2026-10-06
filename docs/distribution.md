@@ -12,6 +12,8 @@ GitHub Actions 在各发行版容器中独立编译、运行全部离线测试�
 
 包管理器会处理 Qt 6、libusb、OpenSSL 依赖。桌面入口名为 XTW Studio。DEB / RPM 安装时重载 udev 规则；Arch 可执行 `sudo udevadm control --reload-rules`。安装后重新插拔编程器，以当前桌面用户启动，无需 root。
 
+Rocky Linux 9 的 Qt 6 来自 EPEL，首次安装前需执行 `sudo dnf install epel-release dnf-plugins-core` 和 `sudo dnf config-manager --set-enabled crb`。
+
 ## tar.gz
 
 这些是**对应发行版的动态链接二进制归档**，不是包含所有依赖的跨发行版静态包。应选择与当前系统匹配的归档，并安装 Qt 6 Widgets / Concurrent 及其平台插件、libusb、OpenSSL；Wayland 会话建议安装 Qt 6 Wayland 插件，中文显示需 CJK 字体。

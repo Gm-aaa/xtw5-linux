@@ -7,10 +7,14 @@ case "$platform" in
   ubuntu-*|debian-*)
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config qt6-base-dev libusb-1.0-0-dev libssl-dev qt6-qpa-plugins dpkg-dev file fonts-noto-cjk
+    apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config qt6-base-dev libusb-1.0-0-dev libssl-dev libgl-dev libopengl-dev qt6-qpa-plugins dpkg-dev file fonts-noto-cjk
     generator=DEB
     ;;
   fedora-*|rocky-*)
+    if [[ "$platform" == rocky-* ]]; then
+        dnf install -y dnf-plugins-core epel-release
+        dnf config-manager --set-enabled crb
+    fi
     dnf install -y gcc-c++ cmake ninja-build pkgconf-pkg-config qt6-qtbase-devel libusb1-devel openssl-devel rpm-build diffutils tar gzip findutils
     generator=RPM
     ;;

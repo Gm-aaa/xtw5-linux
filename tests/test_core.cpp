@@ -328,6 +328,10 @@ class CoreTest : public QObject {
         QCOMPARE(Buffer::load(dir.filePath("dump.hex")), data);
         Buffer::save(dir.filePath("dump.bin"), data);
         QCOMPARE(Buffer::load(dir.filePath("dump.bin")), data);
+        QVERIFY_EXCEPTION_THROWN(readFile(dir.filePath("dump.bin"), 1023), std::runtime_error);
+        QCOMPARE(readFile(dir.filePath("dump.bin"), 1024), data);
+        // Linux procfs reports size 0 even though reading returns data.
+        QVERIFY_EXCEPTION_THROWN(readFile("/proc/self/cmdline", 1), std::runtime_error);
     }
 };
 QTEST_GUILESS_MAIN(CoreTest)
