@@ -26,4 +26,4 @@ Rocky Linux 9 的 Qt 6 来自 EPEL，首次安装前需执行 `sudo dnf install 
 
 ## 自动发布
 
-`main`、PR 和手动触发只构建测试并保留 Actions artifacts。推送与 CMake 版本一致的 `v*` 标签后，全部矩阵任务成功才会创建 GitHub 预发行版，附二进制、tar.gz 和 SHA256SUMS。构建任务只读仓库；仅发布任务具备 contents:write。工作流没有实机测试或 USB 透传。
+`main`、PR 和手动触发只构建测试并保留 Actions artifacts。推送与 CMake 版本一致的 `v*` 标签后，全部矩阵任务成功才会创建 GitHub Release 并设为 Latest，便于从仓库首页找到下载入口，附二进制、tar.gz 和 SHA256SUMS。软件仍属开发预览阶段，验收范围以发布说明为准。构建任务只读仓库；仅发布任务具备 contents:write。工作流没有实机测试或 USB 透传。

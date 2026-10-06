@@ -63,4 +63,4 @@ jobs:
           version=$(sed -n 's/^project(xtw5-linux VERSION \([^ ]*\).*/\1/p' CMakeLists.txt)
           test "$RELEASE_TAG" = "v$version"
           (cd dist && sha256sum * > SHA256SUMS)
-          gh release create "$RELEASE_TAG" dist/* --verify-tag --prerelease --title "XTW Studio $RELEASE_TAG (Linux preview)" --notes-file docs/release-notes.md
+          gh release create "$RELEASE_TAG" dist/* --verify-tag --latest --title "XTW Studio $RELEASE_TAG (Linux preview)" --notes-file docs/release-notes.md
