@@ -1,0 +1,66 @@
+name: Linux build and release
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {platform: ubuntu-22.04, image: 'ubuntu:22.04'}
+          - {platform: ubuntu-24.04, image: 'ubuntu:24.04'}
+          - {platform: debian-12, image: 'debian:12'}
+          - {platform: debian-13, image: 'debian:13'}
+          - {platform: fedora-44, image: 'fedora:44'}
+          - {platform: rocky-9, image: 'rockylinux:9'}
+          - {platform: opensuse-tumbleweed, image: 'opensuse/tumbleweed:latest'}
+          - {platform: arch-rolling, image: 'archlinux:base'}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Build, test and package in distribution
+        env:
+          BUILD_IMAGE: ${{ matrix.image }}
+          PLATFORM: ${{ matrix.platform }}
+        run: docker run --rm -v "$GITHUB_WORKSPACE:/source" "$BUILD_IMAGE" bash /source/scripts/ci-build.sh "$PLATFORM"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: linux-${{ matrix.platform }}
+          path: dist/*
+          if-no-files-found: error
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          pattern: linux-*
+          path: dist
+          merge-multiple: true
+      - name: Check version and create release with checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(sed -n 's/^project(xtw5-linux VERSION \([^ ]*\).*/\1/p' CMakeLists.txt)
+          test "$RELEASE_TAG" = "v$version"
+          (cd dist && sha256sum * > SHA256SUMS)
+          gh release create "$RELEASE_TAG" dist/* --verify-tag --prerelease --title "XTW Studio $RELEASE_TAG (Linux preview)" --notes-file docs/release-notes.md

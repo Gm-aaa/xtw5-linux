@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=XTW Studio
+Name[zh_CN]=XTW Studio 编程器
+Comment=Native Linux XTW-5 flash programmer
+Exec=xtw5-linux
+Icon=xtw5-linux
+Terminal=false
+Categories=Development;Electronics;
+Keywords=XTW;Flash;BIOS;EEPROM;

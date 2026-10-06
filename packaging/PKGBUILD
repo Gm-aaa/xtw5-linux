@@ -1,0 +1,13 @@
+pkgname=xtw5-linux
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Native Qt 6 XTW-5 USB flash programmer'
+arch=('x86_64' 'aarch64')
+url='https://github.com/Gm-aaa/xtw5-linux'
+license=('LicenseRef-All-Rights-Reserved')
+depends=('qt6-base' 'libusb' 'openssl')
+optdepends=('qt6-wayland: Wayland support' 'noto-fonts-cjk: Chinese interface font')
+options=('!strip' '!debug')
+package() {
+    cp -a "$XTW_STAGE/usr" "$pkgdir/"
+}

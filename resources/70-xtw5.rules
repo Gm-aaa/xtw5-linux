@@ -1,0 +1,2 @@
+# Grant access only to the active local desktop session (systemd-logind).
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="1a86", ATTR{idProduct}=="1001", TAG+="uaccess"

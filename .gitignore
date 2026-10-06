@@ -1,0 +1,9 @@
+/build*/
+/local-data/
+*.user
+
+dist/
+
+# Local hardware captures and extra workstation screenshot
+docs/device-info-20261006.log
+docs/preview-idle.png
